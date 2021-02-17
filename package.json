@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Tshamp7/maps-typescript#readme",
   "dependencies": {
-    "@types/faker": "^5.1.6"
+    "@types/faker": "^5.1.6",
+    "@types/googlemaps": "^3.43.3"
   }
 }
