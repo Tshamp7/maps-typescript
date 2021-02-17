@@ -123067,13 +123067,17 @@ var Company =
 /** @class */
 function () {
   function Company() {
-    this.companyName = faker_1.default.company.companyName();
+    this.name = faker_1.default.company.companyName();
     this.catchPhrase = faker_1.default.company.catchPhrase();
     this.location = {
       lat: parseFloat(faker_1.default.address.latitude()),
       lng: parseFloat(faker_1.default.address.longitude())
     };
   }
+
+  Company.prototype.markerContent = function () {
+    return "\n    <div>\n    <h1>Company Name: " + this.name + "</h1>\n    <h3>Company Catchphrase: " + this.catchPhrase + "</h3>\n    </div>\n    ";
+  };
 
   return Company;
 }();
@@ -123100,10 +123104,18 @@ function () {
     });
   }
 
-  CustomMap.prototype.addMarker = function (objectWithLocation) {
-    new google.maps.Marker({
+  CustomMap.prototype.addMarker = function (mappable) {
+    var _this = this;
+
+    var marker = new google.maps.Marker({
       map: this.googleMap,
-      position: objectWithLocation.location
+      position: mappable.location
+    });
+    marker.addListener("click", function () {
+      var infoWindow = new google.maps.InfoWindow({
+        content: mappable.markerContent()
+      });
+      infoWindow.open(_this.googleMap, marker);
     });
   };
 
@@ -123137,6 +123149,10 @@ function () {
       lng: parseFloat(faker_1.default.address.longitude())
     };
   }
+
+  User.prototype.markerContent = function () {
+    return "\n    <div>\n    <h3>User Name: " + this.name + "</h3>\n    </div>\n    ";
+  };
 
   return User;
 }();
